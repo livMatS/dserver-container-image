@@ -1,5 +1,4 @@
 #!/bin/bash -x
-set -euxo pipefail
 
 # get environment variables from Docker-style env_file in properly escaped shell syntax:
 declare -p | grep -E "$(cut -d= -f1 /refresh_index.envs.reference | xargs echo -n | tr ' ' '|')" > /refresh_index.envs
@@ -9,7 +8,18 @@ cd /app
 # Note: init, upgrade and migrate can fail
 cat $JWT_PUBLIC_KEY_FILE
 
-# Initialization
-flask db init
+# Initialization,
+# is allowed to fail with
+#     Error: Directory migrations already exists and is not empty
+# which happens except for the first start
+echo $out
+out=$(flask db init 2>&1)
+if [ $? -ne 0 ]; then
+  echo $out | grep -E 'Error: Directory migrations already exists and is not empty' > /dev/null 2>&1
+  if [ $? -ne 0 ]; then
+    echo $out >2
+    exit 1
+  fi
+fi
 
 supervisord
