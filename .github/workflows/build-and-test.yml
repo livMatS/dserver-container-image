@@ -62,10 +62,10 @@ jobs:
         ls -lha /tmp/.buildx-cache
         echo "cat /tmp/.buildx-cache/index.json"
         cat /tmp/.buildx-cache/index.json
-        echo "cat /tmp/.buildx-cache/ingest"
-        cat /tmp/.buildx-cache/ingest
         echo "ls -lha /tmp/.buildx-cache/blobs"
         ls -lha /tmp/.buildx-cache/blobs
+        echo "ls -lha /tmp/.buildx-cache/ingest"
+        ls -lha /tmp/.buildx-cache/ingest
 
     - name: Build
       uses: docker/build-push-action@v2
@@ -92,10 +92,10 @@ jobs:
         ls -lha /tmp/.buildx-cache
         echo "cat /tmp/.buildx-cache/index.json"
         cat /tmp/.buildx-cache/index.json
-        echo "cat /tmp/.buildx-cache/ingest"
-        cat /tmp/.buildx-cache/ingest
         echo "ls -lha /tmp/.buildx-cache/blobs"
         ls -lha /tmp/.buildx-cache/blobs
+        echo "ls -lha /tmp/.buildx-cache/ingest"
+        ls -lha /tmp/.buildx-cache/ingest
 
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
@@ -140,10 +140,10 @@ jobs:
         ls -lha /tmp/.buildx-cache
         echo "cat /tmp/.buildx-cache/index.json"
         cat /tmp/.buildx-cache/index.json
-        echo "cat /tmp/.buildx-cache/ingest"
-        cat /tmp/.buildx-cache/ingest
         echo "ls -lha /tmp/.buildx-cache/blobs"
         ls -lha /tmp/.buildx-cache/blobs
+        echo "ls -lha /tmp/.buildx-cache/ingest"
+        ls -lha /tmp/.buildx-cache/ingest
 
     - name: Download artifact
       uses: actions/download-artifact@v2
@@ -237,7 +237,7 @@ jobs:
         ls -lha /tmp/.buildx-cache
         echo "cat /tmp/.buildx-cache/index.json"
         cat /tmp/.buildx-cache/index.json
-        echo "cat /tmp/.buildx-cache/ingest"
-        cat /tmp/.buildx-cache/ingest
         echo "ls -lha /tmp/.buildx-cache/blobs"
         ls -lha /tmp/.buildx-cache/blobs
+        echo "ls -lha /tmp/.buildx-cache/ingest"
+        ls -lha /tmp/.buildx-cache/ingest
