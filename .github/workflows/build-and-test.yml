@@ -3,6 +3,8 @@
 # - https://github.com/docker/build-push-action/blob/master/docs/advanced/share-image-jobs.md
 # - https://betterprogramming.pub/sharing-cached-layer-between-docker-and-docker-compose-builds-c2e5f751cee4
 # - https://github.com/crazy-max/ghaction-docker-buildx#leverage-buildx-cache
+# - https://www.freecodecamp.org/news/where-are-docker-images-stored-docker-container-paths-explained/
+# - https://testdriven.io/blog/faster-ci-builds-with-docker-cache/
 name: build
 
 env:
@@ -56,7 +58,14 @@ jobs:
 
     - name: Show cache contents
       run: |
+        echo "ls -lha /tmp/.buildx-cache"
         ls -lha /tmp/.buildx-cache
+        echo "cat /tmp/.buildx-cache/index.json"
+        cat /tmp/.buildx-cache/index.json
+        echo "cat /tmp/.buildx-cache/ingest"
+        cat /tmp/.buildx-cache/ingest
+        echo "ls -lha /tmp/.buildx-cache/blobs"
+        ls -lha /tmp/.buildx-cache/blobs
 
     - name: Build
       uses: docker/build-push-action@v2
@@ -79,7 +88,14 @@ jobs:
       run: |
         rm -rf /tmp/.buildx-cache
         mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+        echo "ls -lha /tmp/.buildx-cache"
         ls -lha /tmp/.buildx-cache
+        echo "cat /tmp/.buildx-cache/index.json"
+        cat /tmp/.buildx-cache/index.json
+        echo "cat /tmp/.buildx-cache/ingest"
+        cat /tmp/.buildx-cache/ingest
+        echo "ls -lha /tmp/.buildx-cache/blobs"
+        ls -lha /tmp/.buildx-cache/blobs
 
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
@@ -120,7 +136,14 @@ jobs:
 
     - name: Show cache contents
       run: |
+        echo "ls -lha /tmp/.buildx-cache"
         ls -lha /tmp/.buildx-cache
+        echo "cat /tmp/.buildx-cache/index.json"
+        cat /tmp/.buildx-cache/index.json
+        echo "cat /tmp/.buildx-cache/ingest"
+        cat /tmp/.buildx-cache/ingest
+        echo "ls -lha /tmp/.buildx-cache/blobs"
+        ls -lha /tmp/.buildx-cache/blobs
 
     - name: Download artifact
       uses: actions/download-artifact@v2
@@ -210,4 +233,11 @@ jobs:
 
     - name: Show cache contents
       run: |
+        echo "ls -lha /tmp/.buildx-cache"
         ls -lha /tmp/.buildx-cache
+        echo "cat /tmp/.buildx-cache/index.json"
+        cat /tmp/.buildx-cache/index.json
+        echo "cat /tmp/.buildx-cache/ingest"
+        cat /tmp/.buildx-cache/ingest
+        echo "ls -lha /tmp/.buildx-cache/blobs"
+        ls -lha /tmp/.buildx-cache/blobs
