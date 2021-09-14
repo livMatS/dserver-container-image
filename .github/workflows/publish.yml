@@ -43,9 +43,9 @@ jobs:
         cache-name: cache-docker-layers
       with:
         path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-buildx-${{ env.cache-name }}-${{ github.sha }}
+        key: ${{ runner.os }}-buildx-${{ env.cache-name }}
         restore-keys: |
-          ${{ runner.os }}-buildx-${{ env.cache-name }}-
+          ${{ runner.os }}-buildx-${{ env.cache-name }}
 
     - name: Login to DockerHub
       if: github.event_name != 'pull_request'

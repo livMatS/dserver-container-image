@@ -13,7 +13,7 @@ name: build
 env:
   image: jotelha/dtool-lookup-server
 
-on: [push]
+on: [push, pull_request]
 
 
 jobs:
@@ -43,34 +43,18 @@ jobs:
       # type=sha creates tags of format 'sha-1bf08cb',
       # type=raw,value=sha-${{ github.sha }} creates tags with full sha
 
-    # - name: Set up QEMU
-    #  uses: docker/setup-qemu-action@v1
-
     - name: Set up docker buildx
       uses: docker/setup-buildx-action@v1
 
     - name: Cache docker layers
       uses: actions/cache@v2
       env:
-        cache-name: cache-docker-data
+        cache-name: cache-docker-layers
       with:
         path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-buildx-${{ env.cache-name }}-${{ github.sha }}
+        key: ${{ runner.os }}-buildx-${{ env.cache-name }}
         restore-keys: |
-          ${{ runner.os }}-buildx-${{ env.cache-name }}-
-
-    - name: Show cache contents
-      run: |
-        echo "ls -lha /tmp/.buildx-cache"
-        ls -lha /tmp/.buildx-cache
-        echo "cat /tmp/.buildx-cache/index.json"
-        cat /tmp/.buildx-cache/index.json
-        echo "ls -lha /tmp/.buildx-cache/blobs"
-        ls -lha /tmp/.buildx-cache/blobs
-        echo "ls -lha /tmp/.buildx-cache/blobs/*"
-        ls -lha /tmp/.buildx-cache/blobs/*
-        echo "ls -lha /tmp/.buildx-cache/ingest"
-        ls -lha /tmp/.buildx-cache/ingest
+          ${{ runner.os }}-buildx-${{ env.cache-name }}
 
     - name: Build
       uses: docker/build-push-action@v2
@@ -93,16 +77,6 @@ jobs:
       run: |
         rm -rf /tmp/.buildx-cache
         mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-        echo "ls -lha /tmp/.buildx-cache"
-        ls -lha /tmp/.buildx-cache
-        echo "cat /tmp/.buildx-cache/index.json"
-        cat /tmp/.buildx-cache/index.json
-        echo "ls -lha /tmp/.buildx-cache/blobs"
-        ls -lha /tmp/.buildx-cache/blobs
-        echo "ls -lha /tmp/.buildx-cache/blobs/*"
-        ls -lha /tmp/.buildx-cache/blobs/*
-        echo "ls -lha /tmp/.buildx-cache/ingest"
-        ls -lha /tmp/.buildx-cache/ingest
 
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
@@ -130,29 +104,6 @@ jobs:
       uses: docker/setup-buildx-action@v1
       with:
         install: true
-
-    - name: Cache docker layers
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-docker-data
-      with:
-        path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-buildx-${{ env.cache-name }}-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-buildx-${{ env.cache-name }}-
-
-    - name: Show cache contents
-      run: |
-        echo "ls -lha /tmp/.buildx-cache"
-        ls -lha /tmp/.buildx-cache
-        echo "cat /tmp/.buildx-cache/index.json"
-        cat /tmp/.buildx-cache/index.json
-        echo "ls -lha /tmp/.buildx-cache/blobs"
-        ls -lha /tmp/.buildx-cache/blobs
-        echo "ls -lha /tmp/.buildx-cache/blobs/*"
-        ls -lha /tmp/.buildx-cache/blobs/*
-        echo "ls -lha /tmp/.buildx-cache/ingest"
-        ls -lha /tmp/.buildx-cache/ingest
 
     - name: Download artifact
       uses: actions/download-artifact@v2
@@ -239,16 +190,3 @@ jobs:
         echo "docker-compose down --volumes"
         docker-compose down --volumes --timeout 30
         cd ..
-
-    - name: Show cache contents
-      run: |
-        echo "ls -lha /tmp/.buildx-cache"
-        ls -lha /tmp/.buildx-cache
-        echo "cat /tmp/.buildx-cache/index.json"
-        cat /tmp/.buildx-cache/index.json
-        echo "ls -lha /tmp/.buildx-cache/blobs"
-        ls -lha /tmp/.buildx-cache/blobs
-        echo "ls -lha /tmp/.buildx-cache/blobs/*"
-        ls -lha /tmp/.buildx-cache/blobs/*
-        echo "ls -lha /tmp/.buildx-cache/ingest"
-        ls -lha /tmp/.buildx-cache/ingest
