@@ -5,10 +5,21 @@
 
 version: 2
 updates:
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+
   # Enable version updates for Docker
   - package-ecosystem: "docker"
     # Look for a `Dockerfile` in this directory
     directory: "/compose/production/dtool_lookup_server"
     # Check for updates once a week
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "pip"
+    directory: "/compose/production/dtool_lookup_server"
     schedule:
       interval: "daily"
