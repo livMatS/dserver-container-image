@@ -5,6 +5,9 @@
 # - https://github.com/crazy-max/ghaction-docker-buildx#leverage-buildx-cache
 # - https://www.freecodecamp.org/news/where-are-docker-images-stored-docker-container-paths-explained/
 # - https://testdriven.io/blog/faster-ci-builds-with-docker-cache/
+#
+# TODO: cache images
+#   see https://about.gitlab.com/blog/2020/10/30/mitigating-the-impact-of-docker-hub-pull-requests-limits/
 name: build
 
 env:
@@ -66,6 +69,8 @@ jobs:
         ls -lha /tmp/.buildx-cache/blobs
         echo "ls -lha /tmp/.buildx-cache/ingest"
         ls -lha /tmp/.buildx-cache/ingest
+        echo "ls -lha /tmp/.buildx-cache/ingest/*"
+        ls -lha /tmp/.buildx-cache/ingest/*
 
     - name: Build
       uses: docker/build-push-action@v2
@@ -96,6 +101,8 @@ jobs:
         ls -lha /tmp/.buildx-cache/blobs
         echo "ls -lha /tmp/.buildx-cache/ingest"
         ls -lha /tmp/.buildx-cache/ingest
+        echo "ls -lha /tmp/.buildx-cache/ingest/*"
+        ls -lha /tmp/.buildx-cache/ingest/*
 
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
@@ -144,6 +151,8 @@ jobs:
         ls -lha /tmp/.buildx-cache/blobs
         echo "ls -lha /tmp/.buildx-cache/ingest"
         ls -lha /tmp/.buildx-cache/ingest
+        echo "ls -lha /tmp/.buildx-cache/ingest/*"
+        ls -lha /tmp/.buildx-cache/ingest/*
 
     - name: Download artifact
       uses: actions/download-artifact@v2
@@ -241,3 +250,5 @@ jobs:
         ls -lha /tmp/.buildx-cache/blobs
         echo "ls -lha /tmp/.buildx-cache/ingest"
         ls -lha /tmp/.buildx-cache/ingest
+        echo "ls -lha /tmp/.buildx-cache/ingest/*"
+        ls -lha /tmp/.buildx-cache/ingest/*
