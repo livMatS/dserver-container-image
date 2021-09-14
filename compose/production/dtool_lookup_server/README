@@ -1,0 +1,5 @@
+Use
+
+    pip-compile requirements.in > requirements.txt
+
+to pin versions.

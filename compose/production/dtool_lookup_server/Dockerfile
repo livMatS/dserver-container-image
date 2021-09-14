@@ -1,28 +1,11 @@
 FROM python:3.8-slim
 
-ENV DTOOL_LOOKUP_SERVER_VERSION=0.17.2
-ENV DTOOL_LOOKUP_SERVER_DEPENDENCY_GRAPH_PLUGIN_VERSION=0.1.5
-ENV DTOOL_LOOKUP_SERVER_DIRECT_MONGO_PLUGIN_VERSION=0.1.4
-
 ENV PYTHONUNBUFFERED 1
 
-RUN apt-get --yes update && \
-    apt-get --no-install-recommends --yes install gcc libc6-dev libpq-dev supervisor cron && \
-    pip install gunicorn psycopg2 && \
-    pip install importlib_metadata  && \
-    pip install dtool-lookup-server==$DTOOL_LOOKUP_SERVER_VERSION \
-                dtool-lookup-server-dependency-graph-plugin==$DTOOL_LOOKUP_SERVER_DEPENDENCY_GRAPH_PLUGIN_VERSION \
-                dtool-lookup-server-direct-mongo-plugin==$DTOOL_LOOKUP_SERVER_DIRECT_MONGO_PLUGIN_VERSION \
-                dtool-smb && \
-    apt-get remove --purge --autoremove -y gcc && \
-    rm -rf /var/lib/apt/lists/*
-# remove importlib_metadata when https://github.com/IMTEK-Simulation/dtool-lookup-server-direct-mongo-plugin/issues/1 resolved
-
-#
-# Prepare application code
-#
 RUN mkdir /app
 RUN mkdir -p /root/.config/dtool
+
+# we expect out own configuration to change less frequently than the pinned Python package versions
 COPY dtool/dtool.json /root/.config/dtool
 
 COPY compose/production/dtool_lookup_server/wsgi.py /app
@@ -44,5 +27,13 @@ RUN chmod +x /register_users_and_base_uris
 RUN chmod +x /refresh_index
 RUN sed -i 's/\r//' /start
 RUN chmod +x /start
+
+COPY compose/production/dtool_lookup_server/requirements.txt /requirements.txt
+RUN apt-get --yes update && \
+    apt-get --no-install-recommends --yes install gcc libc6-dev libpq-dev supervisor cron && \
+    pip install -r /requirements.txt && \
+    apt-get remove --purge --autoremove -y gcc && \
+    rm -rf /var/lib/apt/lists/*
+# remove importlib_metadata when https://github.com/IMTEK-Simulation/dtool-lookup-server-direct-mongo-plugin/issues/1 resolved
 
 WORKDIR /app
