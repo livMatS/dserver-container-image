@@ -1,0 +1,254 @@
+# source:
+# - https://evilmartians.com/chronicles/build-images-on-github-actions-with-docker-layer-caching
+# - https://github.com/docker/build-push-action/blob/master/docs/advanced/share-image-jobs.md
+# - https://betterprogramming.pub/sharing-cached-layer-between-docker-and-docker-compose-builds-c2e5f751cee4
+# - https://github.com/crazy-max/ghaction-docker-buildx#leverage-buildx-cache
+# - https://www.freecodecamp.org/news/where-are-docker-images-stored-docker-container-paths-explained/
+# - https://testdriven.io/blog/faster-ci-builds-with-docker-cache/
+#
+# TODO: cache images
+#   see https://about.gitlab.com/blog/2020/10/30/mitigating-the-impact-of-docker-hub-pull-requests-limits/
+name: build
+
+env:
+  image: jotelha/dtool-lookup-server
+
+on: [push]
+
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Docker meta
+      id: docker_meta
+      uses: crazy-max/ghaction-docker-meta@v2
+      with:
+        images: ${{ env.image }}
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=semver,pattern={{version}}
+          type=semver,pattern={{major}}.{{minor}}
+          type=raw,value=sha-${{ github.sha }}
+          type=sha
+      # type=sha creates tags of format 'sha-1bf08cb',
+      # type=raw,value=sha-${{ github.sha }} creates tags with full sha
+
+    # - name: Set up QEMU
+    #  uses: docker/setup-qemu-action@v1
+
+    - name: Set up docker buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Cache docker layers
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-docker-data
+      with:
+        path: /tmp/.buildx-cache
+        key: ${{ runner.os }}-buildx-${{ env.cache-name }}-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-buildx-${{ env.cache-name }}-
+
+    - name: Show cache contents
+      run: |
+        echo "ls -lha /tmp/.buildx-cache"
+        ls -lha /tmp/.buildx-cache
+        echo "cat /tmp/.buildx-cache/index.json"
+        cat /tmp/.buildx-cache/index.json
+        echo "ls -lha /tmp/.buildx-cache/blobs"
+        ls -lha /tmp/.buildx-cache/blobs
+        echo "ls -lha /tmp/.buildx-cache/blobs/*"
+        ls -lha /tmp/.buildx-cache/blobs/*
+        echo "ls -lha /tmp/.buildx-cache/ingest"
+        ls -lha /tmp/.buildx-cache/ingest
+
+    - name: Build
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: ./compose/production/dtool_lookup_server/Dockerfile
+        platforms: linux/amd64
+        tags: ${{ steps.docker_meta.outputs.tags }}
+        labels: ${{ steps.docker_meta.outputs.labels }}
+        outputs: type=docker, dest=/tmp/image.tar
+        cache-from: type=local,src=/tmp/.buildx-cache
+        cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+        # This ugly bit is necessary if you don't want your cache to grow forever
+        # till it hits GitHub's limit of 5GB.
+        # Temp fix
+        # https://github.com/docker/build-push-action/issues/252
+        # https://github.com/moby/buildkit/issues/1896
+
+    - name: Move cache
+      run: |
+        rm -rf /tmp/.buildx-cache
+        mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+        echo "ls -lha /tmp/.buildx-cache"
+        ls -lha /tmp/.buildx-cache
+        echo "cat /tmp/.buildx-cache/index.json"
+        cat /tmp/.buildx-cache/index.json
+        echo "ls -lha /tmp/.buildx-cache/blobs"
+        ls -lha /tmp/.buildx-cache/blobs
+        echo "ls -lha /tmp/.buildx-cache/blobs/*"
+        ls -lha /tmp/.buildx-cache/blobs/*
+        echo "ls -lha /tmp/.buildx-cache/ingest"
+        ls -lha /tmp/.buildx-cache/ingest
+
+    - name: Image digest
+      run: echo ${{ steps.docker_build.outputs.digest }}
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: image
+        path: /tmp/image.tar
+
+
+  test:
+
+    needs: build
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        dtool-lookup-server-container-composition-version: [0.1.6]
+
+    steps:
+
+    # see https://github.com/docker/buildx#building-with-buildx
+    - name: Set up docker buildx
+      uses: docker/setup-buildx-action@v1
+      with:
+        install: true
+
+    - name: Cache docker layers
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-docker-data
+      with:
+        path: /tmp/.buildx-cache
+        key: ${{ runner.os }}-buildx-${{ env.cache-name }}-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-buildx-${{ env.cache-name }}-
+
+    - name: Show cache contents
+      run: |
+        echo "ls -lha /tmp/.buildx-cache"
+        ls -lha /tmp/.buildx-cache
+        echo "cat /tmp/.buildx-cache/index.json"
+        cat /tmp/.buildx-cache/index.json
+        echo "ls -lha /tmp/.buildx-cache/blobs"
+        ls -lha /tmp/.buildx-cache/blobs
+        echo "ls -lha /tmp/.buildx-cache/blobs/*"
+        ls -lha /tmp/.buildx-cache/blobs/*
+        echo "ls -lha /tmp/.buildx-cache/ingest"
+        ls -lha /tmp/.buildx-cache/ingest
+
+    - name: Download artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: image
+        path: /tmp
+
+    - name: Load current image
+      run: |
+        # the following line allows testing locally with act (https://github.com/nektos/act),
+        # i.e. by running
+        #   act -W .github/workflows/test.yml --bind
+        # from within this repository's root directory (see README for more information).
+        sudo chown runner:docker /var/run/docker.sock
+        # see https://github.com/nektos/act/issues/724#issuecomment-855390956
+
+        # show docker info
+        docker info
+
+        docker load --input /tmp/image.tar
+        docker image ls -a
+
+    - name: Git checkout dtool-lookup-server-container-composition ${{ matrix.dtool-lookup-server-container-composition-version }}
+      uses: actions/checkout@v2
+      with:
+        repository: jotelha/dtool-lookup-server-container-composition
+        ref: ${{ matrix.dtool-lookup-server-container-composition-version }}
+        path: dtool-lookup-server-container-composition
+
+    - name: Prepare composition
+      run: |
+        cd dtool-lookup-server-container-composition
+
+        # docker-compose pull
+        echo "generate certs and keys"
+        cd keys
+        bash generate.sh
+        bash generate_jwt_key.sh
+
+    - name: Provide dtool lookup server ${{ matrix.dtool-lookup-server-version }} and run tests
+      env:
+        # override composition defaults to use local image
+        # see https://github.com/jotelha/dtool-lookup-server-container-composition/blob/master/.env
+        # use commit-specific github sha tag to identify image built above correctly
+        DTOOL_LOOKUP_SERVER_CONTAINER_IMAGE_VERSION: sha-${{ github.sha }}
+      run: |
+        
+        cd dtool-lookup-server-container-composition
+
+        docker-compose -p dtool-lookup-server-container-composition up -d --no-build  # will pull missing images with build command in compose file
+
+        sleep 10
+       
+        echo "docker container ls --all"
+        docker container ls --all
+
+        echo "docker volume ls"
+        docker volume ls
+        
+        echo "docker images"
+        docker-compose images
+
+        echo "dtool lookup server log"
+        docker-compose logs dtool_lookup_server
+        
+        echo "dtool lookup client log"
+        docker-compose logs dtool_lookup_client
+
+        echo "dtool ls smb://test-share"
+        docker-compose run dtool_lookup_client dtool ls smb://test-share
+        
+        echo "explicitly re-evoke dataset indexing"
+        docker-compose exec -T dtool_lookup_server /refresh_index
+
+        echo "dtool query '{}'"
+        docker-compose run dtool_lookup_client dtool query '{}'
+
+        # cd ..
+        # sleep 10
+        # # run tests, i.e. 
+        # #  pytest --deselect=dtool-lookup-server-container-composition
+        # cd dtool-lookup-server-container-composition
+
+        echo "docker-compose down --volumes"
+        docker-compose down --volumes --timeout 30
+        cd ..
+
+    - name: Show cache contents
+      run: |
+        echo "ls -lha /tmp/.buildx-cache"
+        ls -lha /tmp/.buildx-cache
+        echo "cat /tmp/.buildx-cache/index.json"
+        cat /tmp/.buildx-cache/index.json
+        echo "ls -lha /tmp/.buildx-cache/blobs"
+        ls -lha /tmp/.buildx-cache/blobs
+        echo "ls -lha /tmp/.buildx-cache/blobs/*"
+        ls -lha /tmp/.buildx-cache/blobs/*
+        echo "ls -lha /tmp/.buildx-cache/ingest"
+        ls -lha /tmp/.buildx-cache/ingest
