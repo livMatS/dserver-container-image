@@ -1,0 +1,175 @@
+# source:
+# - https://github.com/docker/build-push-action/blob/master/docs/advanced/share-image-jobs.md
+name: build
+
+env:
+  image: jotelha/dtool-lookup-server
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Docker meta
+      id: docker_meta
+      uses: crazy-max/ghaction-docker-meta@v2
+      with:
+        images: ${{ env.image }}
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=semver,pattern={{version}}
+          type=semver,pattern={{major}}.{{minor}}
+          type=sha
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Cache docker layers
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-docker-data
+      with:
+        path: /tmp/.buildx-cache
+        key: ${{ runner.os }}-buildx-${{ env.cache-name }}-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-buildx-${{ env.cache-name }}-
+
+    - name: Build
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: ./compose/production/dtool_lookup_server/Dockerfile
+        platforms: linux/amd64
+        tags: ${{ steps.docker_meta.outputs.tags }}
+        labels: ${{ steps.docker_meta.outputs.labels }}
+        outputs: type=docker, dest=/tmp/image.tar
+        cache-from: type=local,src=/tmp/.buildx-cache
+        cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+        # This ugly bit is necessary if you don't want your cache to grow forever
+        # till it hits GitHub's limit of 5GB.
+        # Temp fix
+        # https://github.com/docker/build-push-action/issues/252
+        # https://github.com/moby/buildkit/issues/1896
+
+    - name: Move cache
+      run: |
+        rm -rf /tmp/.buildx-cache
+        mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+    - name: Image digest
+      run: echo ${{ steps.docker_build.outputs.digest }}
+
+    - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: image
+          path: /tmp/image.tar
+
+  test:
+    needs: build
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        dtool-lookup-server-container-composition-version: [0.1.6]
+
+    steps:
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Download artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: image
+        path: /tmp
+
+    - name: Git checkout dtool-lookup-server-container-composition ${{ matrix.dtool-lookup-server-container-composition-version }}
+      uses: actions/checkout@v2
+      with:
+        repository: jotelha/dtool-lookup-server-container-composition
+        ref: ${{ matrix.dtool-lookup-server-container-composition-version }}
+        path: dtool-lookup-server-container-composition
+
+    - name: Load current image
+      run: |
+        # the following line allows testing locally with act (https://github.com/nektos/act),
+        # i.e. by running
+        #   act -W .github/workflows/test.yml --bind
+        # from within this repository's root directory (see README for more information).
+        sudo chown runner:docker /var/run/docker.sock
+        # see https://github.com/nektos/act/issues/724#issuecomment-855390956
+
+        docker load --input /tmp/image.tar
+        docker image ls -a
+
+    - name: Pull other container images and prepare composition
+      run: |
+        cd dtool-lookup-server-container-composition
+
+        docker-compose pull 
+        echo "docker image ls -a"
+        docker image ls -a
+
+        echo "generate certs and keys"
+        cd keys
+        bash generate.sh
+        bash generate_jwt_key.sh
+
+
+    - name: Provide dtool lookup server ${{ matrix.dtool-lookup-server-version }} and test with pytest
+      env:
+        # override composition defaults to use local image
+        # see https://github.com/jotelha/dtool-lookup-server-container-composition/blob/master/.env
+        DTOOL_LOOKUP_SERVER_CONTAINER_IMAGE_VERSION: latest
+      run: |
+        
+        cd dtool-lookup-server-container-composition
+
+        docker-compose -p dtool-lookup-server-container-composition up -d --no-build  # will pull missing images with build command in compose file
+
+        sleep 10
+       
+        echo "docker container ls --all"
+        docker container ls --all
+
+        echo "docker volume ls"
+        docker volume ls
+        
+        echo "docker images"
+        docker-compose images
+
+        echo "dtool lookup server log"
+        docker-compose logs dtool_lookup_server
+        
+        echo "dtool lookup client log"
+        docker-compose logs dtool_lookup_client
+
+        echo "dtool ls smb://test-share"
+        docker-compose run dtool_lookup_client dtool ls smb://test-share
+        
+        echo "explicitly re-evoke dataset indexing"
+        docker-compose exec -T dtool_lookup_server /refresh_index
+
+        echo "dtool query '{}'"
+        docker-compose run dtool_lookup_client dtool query '{}'
+
+        # cd ..
+        # sleep 10
+        # # run tests, i.e. 
+        # #  pytest --deselect=dtool-lookup-server-container-composition
+        # cd dtool-lookup-server-container-composition
+
+        echo "docker-compose down --volumes"
+        docker-compose down --volumes --timeout 30
+        cd ..
