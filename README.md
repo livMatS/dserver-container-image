@@ -15,16 +15,15 @@ Provides https://github.com/jic-dtool/dtool-lookup-server in a container image f
 * `JWT_PRIVATE_KEY_FILE`, default: `/run/secrets/jwt_key`
 * `SSL_CERT_FILE`, default: `/run/secrets/tls_cert.pem`
 * `SSL_KEY_FILE`, default: `/run/secrets/tls_key.pem`
-* `DTOOL_LOOKUP_SERVER_QUERY_DICT_VALID_KEYS`, default: `["free_text","creator_usernames","base_uris","uuids","tags","query"]`
-* `DTOOL_LOOKUP_SERVER_ALLOW_DIRECT_AGGREGATION`, default: `False`
-* `DTOOL_LOOKUP_SERVER_ENABLE_DEPENDENCY_VIEW`, default: `True`
-* `DTOOL_LOOKUP_SERVER_DEPENDENCY_KEYS`, default: `["readme.derived_from.uuid","annotations.source_dataset_uuid"]`
 
+Server and plugins each have their own set of environment variables as well.
 See server and plugin documentations at
 
 * https://github.com/jic-dtool/dtool-lookup-server#setup-and-configuration, 
+* https://github.com/jic-dtool/dtool-lookup-server-annotation-filter-plugin/
 * https://github.com/IMTEK-Simulation/dtool-lookup-server-dependency-graph-plugin#setup-and-configuration
 * https://github.com/IMTEK-Simulation/dtool-lookup-server-direct-mongo-plugin
+* https://github.com/IMTEK-Simulation/dtool-lookup-server-notification-plugin
 
 for further information on the effect of above environement variables.
 
