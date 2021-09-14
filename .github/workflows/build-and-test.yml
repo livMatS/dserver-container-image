@@ -27,6 +27,8 @@ jobs:
           type=semver,pattern={{version}}
           type=semver,pattern={{major}}.{{minor}}
           type=sha
+          type=sha,format=long
+      # type=sha creates tags of format 'sha-1bf08cb'
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
@@ -127,11 +129,12 @@ jobs:
         bash generate_jwt_key.sh
 
 
-    - name: Provide dtool lookup server ${{ matrix.dtool-lookup-server-version }} and test with pytest
+    - name: Provide dtool lookup server ${{ matrix.dtool-lookup-server-version }} and run tests
       env:
         # override composition defaults to use local image
         # see https://github.com/jotelha/dtool-lookup-server-container-composition/blob/master/.env
-        DTOOL_LOOKUP_SERVER_CONTAINER_IMAGE_VERSION: latest
+        # use commit-specific github sha tag to identify image built above correctly
+        DTOOL_LOOKUP_SERVER_CONTAINER_IMAGE_VERSION: sha-${{ github.sha }}
       run: |
         
         cd dtool-lookup-server-container-composition
