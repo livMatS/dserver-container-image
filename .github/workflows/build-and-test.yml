@@ -34,14 +34,10 @@ jobs:
       with:
         images: ${{ env.image }}
         tags: |
-          type=ref,event=branch
-          type=ref,event=pr
-          type=semver,pattern={{version}}
-          type=semver,pattern={{major}}.{{minor}}
           type=raw,value=sha-${{ github.sha }}
           type=sha
-      # type=sha creates tags of format 'sha-1bf08cb',
       # type=raw,value=sha-${{ github.sha }} creates tags with full sha
+      # type=sha creates tags of format 'sha-1bf08cb',
 
     - name: Set up docker buildx
       uses: docker/setup-buildx-action@v1
@@ -95,15 +91,35 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        dtool-lookup-server-container-composition-version: [0.1.6]
+        dtool-lookup-server-container-composition-version: [0.3.0]
 
     steps:
-
-    # see https://github.com/docker/buildx#building-with-buildx
-    - name: Set up docker buildx
-      uses: docker/setup-buildx-action@v1
-      with:
-        install: true
+    
+    # deactivated docker buildx here due to
+    # * https://github.com/docker/compose/issues/8494
+    # * https://github.com/docker/compose/issues/8590 
+    # otherwise, the line
+    #    docker-compose -p dtool-lookup-server-container-composition up -d 
+    # below will fail with
+    #   [2394] Failed to execute script docker-compose
+    #   Traceback (most recent call last):
+    #     File "docker-compose", line 3, in <module>
+    #     File "compose/cli/main.py", line 81, in main
+    #     File "compose/cli/main.py", line 203, in perform_command
+    #     File "compose/metrics/decorator.py", line 18, in wrapper
+    #     File "compose/cli/main.py", line 1186, in up
+    #     File "compose/cli/main.py", line 1182, in up
+    #     File "compose/project.py", line 664, in up
+    #     File "compose/service.py", line 364, in ensure_image_exists
+    #     File "compose/service.py", line 1133, in build
+    #     File "compose/service.py", line 1950, in build
+    #   IndexError: list index out of range
+    #   Error: Process completed with exit code 255.
+    #
+    # - name: Set up docker buildx
+    #   uses: docker/setup-buildx-action@v1
+    #   with:
+    #     install: true
 
     - name: Download artifact
       uses: actions/download-artifact@v2
@@ -137,7 +153,6 @@ jobs:
       run: |
         cd dtool-lookup-server-container-composition
 
-        # docker-compose pull
         echo "generate certs and keys"
         cd keys
         bash generate.sh
@@ -153,7 +168,7 @@ jobs:
         
         cd dtool-lookup-server-container-composition
 
-        docker-compose -p dtool-lookup-server-container-composition up -d --no-build  # will pull missing images with build command in compose file
+        docker-compose -p dtool-lookup-server-container-composition up -d 
 
         sleep 10
        
@@ -172,18 +187,32 @@ jobs:
         echo "dtool lookup client log"
         docker-compose logs dtool_lookup_client
 
+        # create dtool directory on samba share
+        echo "smbclient -U guest -c "mkdir dtool" -N -W WORKGROUP //sambaserver/sambashare"
+        docker-compose run --entrypoint smbclient dtool_lookup_client -U guest -c "mkdir dtool" -N -W WORKGROUP //sambaserver/sambashare
+
+        # place test datasets on storage infrastructure
+        echo "dtool cp tests/dtool/simple_test_dataset smb://test-share"
+        docker-compose run -v $(pwd)/tests:/tests dtool_lookup_client cp /tests/dtool/simple_test_dataset smb://test-share
+
+        echo "dtool cp tests/dtool/simple_test_dataset s3://test-bucket"
+        docker-compose run -v $(pwd)/tests:/tests dtool_lookup_client cp /tests/dtool/simple_test_dataset s3://test-bucket
+
         echo "dtool ls smb://test-share"
-        docker-compose run dtool_lookup_client dtool ls smb://test-share
+        docker-compose run dtool_lookup_client ls smb://test-share
+
+        echo "dtool ls s3://test-bucket"
+        docker-compose run dtool_lookup_client ls s3://test-bucket
         
         echo "explicitly re-evoke dataset indexing"
         docker-compose exec -T dtool_lookup_server /refresh_index
 
         echo "dtool query '{}'"
-        docker-compose run dtool_lookup_client dtool query '{}'
+        docker-compose run dtool_lookup_client query '{}'
 
         # cd ..
         # sleep 10
-        # # run tests, i.e. 
+        # # run tests, i.e.
         # #  pytest --deselect=dtool-lookup-server-container-composition
         # cd dtool-lookup-server-container-composition
 
