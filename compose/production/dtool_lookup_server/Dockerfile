@@ -21,6 +21,12 @@ COPY compose/production/dtool_lookup_server/supervisord.conf /etc/supervisor/con
 # compose mechanism. Their actual values at image build time won't be taken into account.
 # Instead, actual values are read at container launch (see start file):
 COPY envs/production/dtool_lookup_server /refresh_index.envs.reference
+
+# sample userand base_uri files
+COPY compose/production/dtool_lookup_server/users /app
+COPY compose/production/dtool_lookup_server/admin_users /app
+COPY compose/production/dtool_lookup_server/base_uris /app
+
 RUN chmod 0744 /etc/cron.daily/refresh_index
 RUN chmod +x /init_db
 RUN chmod +x /register_users_and_base_uris
