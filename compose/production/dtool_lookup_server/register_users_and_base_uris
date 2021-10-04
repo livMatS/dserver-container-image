@@ -33,7 +33,7 @@ for user in $(cat "${DTOOL_LOOKUP_SERVER_USER_FILE}"); do
 
   # everyone may search everything
   for base_uri in $(cat "${DTOOL_LOOKUP_SERVER_BASE_URI_FILE}"); do
-    out=$(flask user search_permission "${user}" "{base_uri}" 2>&1)
+    out=$(flask user search_permission "${user}" "${base_uri}" 2>&1)
     if [ $? -ne 0 ]; then
       echo $out | grep -E 'User .* already has search permissions' > /dev/null 2>&1
       if [ $? -ne 0 ]; then
