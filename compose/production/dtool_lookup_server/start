@@ -1,8 +1,8 @@
 #!/bin/bash -x
 
 export BIND_TO="${BIND_TO:-0.0.0.0:5000}"
-export SSL_CERT_FILE="${SSL_CERT_FILE:-run/secrets/tls_cert.pem}"
-export SSL_KEY_FILE="${SSL_KEY_FILE:-run/secrets/tls_key.pem}"
+export SSL_CERT_FILE="${SSL_CERT_FILE:-/run/secrets/tls_cert.pem}"
+export SSL_KEY_FILE="${SSL_KEY_FILE:-/run/secrets/tls_key.pem}"
 
 # get environment variables from Docker-style env_file in properly escaped shell syntax:
 declare -p | grep -E "$(cut -d= -f1 /refresh_index.envs.reference | xargs echo -n | tr ' ' '|')" > /refresh_index.envs
