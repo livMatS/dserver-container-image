@@ -4,7 +4,7 @@ SQLALCHEMY_DATABASE_URI=postgresql://testing_user:testing_password@postgres:5432
 
 MONGO_URI=mongodb://mongodb:27017/dtool_info
 
-BIND_TO=0.0.0.0:5000
+BIND_TO="0.0.0.0:5000"
 
 JWT_PUBLIC_KEY_FILE=/run/secrets/jwt_key.pub
 JWT_PRIVATE_KEY_FILE=/run/secrets/jwt_key

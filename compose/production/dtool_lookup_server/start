@@ -1,6 +1,6 @@
 #!/bin/bash -x
 
-export BIND_TO="${BIND_TO:-0.0.0.0:5001}"
+export BIND_TO="${BIND_TO:-0.0.0.0:5000}"
 export SSL_CERT_FILE="${SSL_CERT_FILE:-run/secrets/tls_cert.pem}"
 export SSL_KEY_FILE="${SSL_KEY_FILE:-run/secrets/tls_key.pem}"
 
