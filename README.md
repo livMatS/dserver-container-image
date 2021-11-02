@@ -13,7 +13,8 @@ Provides https://github.com/jic-dtool/dtool-lookup-server in a container image f
 * `DTOOL_LOOKUP_SERVER_BASE_URI_FILE`, default: `/app/base_uris`, a plain text list of all base URIs to index, one entry per line
 * `FLASK_APP`, default: `dtool_lookup_server`
 * `SQLALCHEMY_DATABASE_URI`, default: `postgres://testing_user:testing_password@postgres:5432/dtool`
-* `MONGO_URI`, defualt: `mongodb://mongodb:27017/dtool_info`
+* `MONGO_URI`, default: `mongodb://mongodb:27017/dtool_info`
+* `BIND_TO`, default: `0.0.0.0:5000`
 * `JWT_PUBLIC_KEY_FILE`, default: `/run/secrets/jwt_key.pub`
 * `JWT_PRIVATE_KEY_FILE`, default: `/run/secrets/jwt_key`
 * `SSL_CERT_FILE`, default: `/run/secrets/tls_cert.pem`
