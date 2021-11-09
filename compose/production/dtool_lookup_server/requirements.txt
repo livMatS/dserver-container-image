@@ -96,10 +96,8 @@ greenlet==1.1.1
     # via sqlalchemy
 gunicorn==20.1.0
     # via -r requirements.in
-importlib-metadata==4.8.1
+importlib_metadata==4.8.2
     # via -r requirements.in
-importlib-resources==5.2.2
-    # via alembic
 itsdangerous==1.1.0
     # via flask
 jinja2==2.11.3
@@ -149,9 +147,7 @@ werkzeug==1.0.1
     #   flask
     #   flask-jwt-extended
 zipp==3.5.0
-    # via
-    #   importlib-metadata
-    #   importlib-resources
+    # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
