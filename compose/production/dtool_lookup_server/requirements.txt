@@ -98,8 +98,6 @@ gunicorn==20.1.0
     # via -r requirements.in
 importlib-metadata==4.8.1
     # via -r requirements.in
-importlib-resources==5.2.2
-    # via alembic
 itsdangerous==1.1.0
     # via flask
 jinja2==2.11.3
@@ -114,7 +112,7 @@ markupsafe==2.0.1
     # via
     #   jinja2
     #   mako
-psycopg2==2.9.1
+psycopg2==2.9.2
     # via -r requirements.in
 pyasn1==0.4.8
     # via pysmb
@@ -149,9 +147,7 @@ werkzeug==1.0.1
     #   flask
     #   flask-jwt-extended
 zipp==3.5.0
-    # via
-    #   importlib-metadata
-    #   importlib-resources
+    # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
