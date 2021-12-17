@@ -96,7 +96,7 @@ greenlet==1.1.1
     # via sqlalchemy
 gunicorn==20.1.0
     # via -r requirements.in
-importlib_metadata==4.8.2
+importlib_metadata==4.9.0
     # via -r requirements.in
 itsdangerous==1.1.0
     # via flask
