@@ -96,7 +96,7 @@ greenlet==1.1.1
     # via sqlalchemy
 gunicorn==20.1.0
     # via -r requirements.in
-importlib_metadata==4.8.2
+importlib-metadata==4.8.2
     # via -r requirements.in
 itsdangerous==1.1.0
     # via flask
@@ -112,7 +112,7 @@ markupsafe==2.0.1
     # via
     #   jinja2
     #   mako
-psycopg2==2.9.2
+psycopg2==2.9.3
     # via -r requirements.in
 pyasn1==0.4.8
     # via pysmb
