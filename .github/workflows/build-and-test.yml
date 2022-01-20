@@ -1,6 +1,11 @@
 name: dtool-lookup-server-container-image-build-and-test
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
 
 jobs:
   build-and-test:
