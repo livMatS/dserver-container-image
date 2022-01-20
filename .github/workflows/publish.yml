@@ -1,8 +1,5 @@
 name: publish
 
-env:
-  image: jotelha/dtool-lookup-server
-
 on:
   push:
     branches:
