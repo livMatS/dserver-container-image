@@ -8,7 +8,7 @@ on:
       - 'v*'
 
 jobs:
-  build-and-test:
+  publish:
     uses: jotelha/dtool-framework-workflows/.github/workflows/dtool-lookup-framewok-generic-container-image-publication.yml@master
     with:
       image: jotelha/dtool-lookup-server
