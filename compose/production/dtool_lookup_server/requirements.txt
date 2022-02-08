@@ -53,7 +53,7 @@ dtool-lookup-server-direct-mongo-plugin==0.1.4
     # via -r requirements.in
 dtool-lookup-server-notification-plugin==0.1.1
     # via -r requirements.in
-dtool-s3==0.13.0
+-e git+https://github.com/jic-dtool/dtool-s3.git@i18n-filename-support
     # via
     #   -r requirements.in
     #   dtool-ecs
