@@ -8,16 +8,17 @@ Provides https://github.com/jic-dtool/dtool-lookup-server in a container image f
 
 ## Envionment variables
 
+* `BIND_TO`, default: `0.0.0.0:5000`
 * `DTOOL_LOOKUP_SERVER_USER_FILE`, default: `/app/users`, a plain text list of all users, one user per line
 * `DTOOL_LOOKUP_SERVER_ADMIN_USER_FILE`, default: `/app/admin_users`, a plain text list of all users with admin privileges, must also appear in user list above
 * `DTOOL_LOOKUP_SERVER_BASE_URI_FILE`, default: `/app/base_uris`, a plain text list of all base URIs to index, one entry per line
-* `DUMP_HTTP_REQUESTS`: If set, dump all http requests to server application to stdout for debugging purposes
+* `DUMP_HTTP_REQUESTS`: If set `true`, dump all http requests to server application to stdout for debugging purposes
 * `FLASK_APP`, default: `dtool_lookup_server`
-* `SQLALCHEMY_DATABASE_URI`, default: `postgres://testing_user:testing_password@postgres:5432/dtool`
-* `MONGO_URI`, default: `mongodb://mongodb:27017/dtool_info`
-* `BIND_TO`, default: `0.0.0.0:5000`
 * `JWT_PUBLIC_KEY_FILE`, default: `/run/secrets/jwt_key.pub`
 * `JWT_PRIVATE_KEY_FILE`, default: `/run/secrets/jwt_key`
+* `LOGLEVEL`, default: `warning`, loglevel for Python layer of server app
+* `MONGO_URI`, default: `mongodb://mongodb:27017/dtool_info`
+* `SQLALCHEMY_DATABASE_URI`, default: `postgres://testing_user:testing_password@postgres:5432/dtool`
 * `SSL_CERT_FILE`, default: `/run/secrets/tls_cert.pem`
 * `SSL_KEY_FILE`, default: `/run/secrets/tls_key.pem`
 
