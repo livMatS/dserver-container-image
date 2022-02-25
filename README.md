@@ -1,10 +1,10 @@
 # dtool lookup server container image
 
-[![Docker Image Version (latest semver)](https://img.shields.io/docker/v/jotelha/dtool-lookup-server?label=dockerhub)](https://hub.docker.com/repository/docker/jotelha/dtool-lookup-server) [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/jotelha/dtool-lookup-server-container-image/publish)](https://github.com/jotelha/dtool-lookup-server-container-image/actions?query=workflow%3Apublish)
+[![Docker Image Version (latest semver)](https://img.shields.io/docker/v/jotelha/dtool-lookup-server?label=dockerhub)](https://hub.docker.com/repository/docker/jotelha/dtool-lookup-server) [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/livMatS/dtool-lookup-server-container-image/publish)](https://github.com/livMatS/dtool-lookup-server-container-image/actions?query=workflow%3Apublish)
 
-Part of https://github.com/jotelha/dtool-lookup-server-container-composition.
+Part of https://github.com/livMatS/dtool-lookup-server-container-composition.
 
-Provides https://github.com/jic-dtool/dtool-lookup-server in a container image for testing purposes. 
+Provides https://github.com/jic-dtool/dtool-lookup-server in a container image for testing purposes.
 
 ## Envionment variables
 
@@ -25,11 +25,11 @@ Provides https://github.com/jic-dtool/dtool-lookup-server in a container image f
 Server and plugins each have their own set of environment variables as well.
 See server and plugin documentations at
 
-* https://github.com/jic-dtool/dtool-lookup-server#setup-and-configuration, 
-* https://github.com/jic-dtool/dtool-lookup-server-annotation-filter-plugin/
-* https://github.com/IMTEK-Simulation/dtool-lookup-server-dependency-graph-plugin#setup-and-configuration
-* https://github.com/IMTEK-Simulation/dtool-lookup-server-direct-mongo-plugin
-* https://github.com/IMTEK-Simulation/dtool-lookup-server-notification-plugin
+* https://github.com/jic-dtool/dtool-lookup-server#setup-and-configuration
+* https://github.com/jic-dtool/dtool-lookup-server-annotation-filter-plugin
+* https://github.com/livMatS/dtool-lookup-server-dependency-graph-plugi
+* https://github.com/livMatS/dtool-lookup-server-direct-mongo-plugin
+* https://github.com/livMatS/dtool-lookup-server-notification-plugin
 
 for further information on the effect of above environement variables.
 
