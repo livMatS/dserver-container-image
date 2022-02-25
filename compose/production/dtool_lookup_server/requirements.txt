@@ -51,7 +51,7 @@ dtool-lookup-server-dependency-graph-plugin==0.1.5
     # via -r requirements.in
 dtool-lookup-server-direct-mongo-plugin==0.1.4
     # via -r requirements.in
-dtool-lookup-server-notification-plugin==0.1.1
+dtool-lookup-server-notification-plugin==0.2.0
     # via -r requirements.in
 -e git+https://github.com/jic-dtool/dtool-s3.git@i18n-filename-support#egg=dtool-s3
     # via

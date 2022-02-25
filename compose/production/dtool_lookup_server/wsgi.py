@@ -1,7 +1,29 @@
 """Create dtool_lookup_server wsgi app."""
+import logging
 import os
 import pprint
 from dtool_lookup_server import create_app
+
+
+LOGLEVELS_STR = ['CRITICAL', 'ERROR', 'WARNING', 'INFO', 'DEBUG', 'NOTSET']
+LOGLEVELS_INT = [getattr(logging, level) for level in LOGLEVELS_STR]
+
+loglevel = os.getenv("LOGLEVEL", 'ERROR').upper()
+if loglevel in LOGLEVELS_STR:
+    print(f"Select loglevel by keyword {loglevel}.")
+    loglevel = getattr(logging, loglevel)
+elif int(loglevel) in LOGLEVELS_INT:
+    print(f"Select loglevel by value {loglevel}.")
+    loglevel = int(loglevel)
+else:
+    print(f"Select default loglevel.")
+    loglevel = None
+
+if loglevel is not None:
+    print(f"Set loglevel={loglevel}.")
+    logging.basicConfig(level=loglevel)
+    logger = logging.getLogger()
+    logger.setLevel(loglevel) # modify root logger as well in case it's been set up already elsewhere
 
 app = create_app()
 
