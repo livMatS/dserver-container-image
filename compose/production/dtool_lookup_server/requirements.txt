@@ -58,6 +58,7 @@ dtool-s3==0.14.0
     #   -r requirements.in
     #   dtool-ecs
     #   dtool-lookup-server
+    #   dtool-lookup-server-notification-plugin
 dtool-smb==0.1.0
     # via -r requirements.in
 dtoolcore==3.18.0
@@ -96,7 +97,7 @@ greenlet==1.1.1
     # via sqlalchemy
 gunicorn==20.1.0
     # via -r requirements.in
-importlib_metadata==4.10.1
+importlib-metadata==4.11.2
     # via -r requirements.in
 itsdangerous==1.1.0
     # via flask
