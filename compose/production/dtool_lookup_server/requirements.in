@@ -9,3 +9,4 @@ dtool-lookup-server-dependency-graph-plugin
 dtool-lookup-server-direct-mongo-plugin
 dtool-lookup-server-annotation-filter-plugin 
 dtool-lookup-server-notification-plugin
+markupsafe==2.0.1

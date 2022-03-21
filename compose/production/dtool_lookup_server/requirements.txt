@@ -164,8 +164,9 @@ jmespath==1.0.0
     #   botocore
 mako==1.2.0
     # via alembic
-markupsafe==2.1.1
+markupsafe==2.0.1
     # via
+    #   -r requirements.in
     #   jinja2
     #   mako
 packaging==21.3
