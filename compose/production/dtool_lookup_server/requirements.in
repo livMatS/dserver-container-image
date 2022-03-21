@@ -1,6 +1,7 @@
 gunicorn
 psycopg2
 importlib_metadata
+dtool
 dtool-smb
 dtool-s3
 dtool-lookup-server
