@@ -29,20 +29,18 @@ jobs:
           pip install pip-tools
           pip install pipdeptree
           
-      - name: Install requirements.txt
-        run: |
-          cd compose/production/dtool_lookup_server
-          pip install -r requirements.txt
-
       - name: Requirements inspection and upgrade
         run: |
+          cd compose/production/dtool_lookup_server
+          echo "### Initial pip install -r requirements.txt ###"
+          pip install -r requirements.txt
           echo "### Initial pipdeptree ###"
           pipdeptree | tee pipdeptree.initial
           echo "### pip-compile --upgrade ###"
           pip-compile --upgrade requirements.in
           echo "### requirements.txt diff ###"
           git diff requirments.txt | tee diff_requirements.txt
-          echo "### pip install -r requirements.txt ###"
+          echo "### Repeated pip install -r requirements.txt ###"
           pip install -r requirements.txt
           echo "### Upgraded pipdeptree ###"
           pipdeptree | tee pipdeptree.upgraded
