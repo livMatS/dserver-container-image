@@ -8,6 +8,45 @@ on:
 
 
 jobs:
+  pip-compile:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.7', '3.8', '3.9', '3.10']
+    name: Python ${{ matrix.python-version }} sample
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+          architecture: x64
+      - name: Install pip-tools and pipdeptree
+        run: |
+          pip install --upgrade pip
+          pip install wheel
+          pip install pip-tools
+          pip install pipdeptree
+          
+      - name: Install requirements.txt
+        run: |
+          cd compose/production/dtool_lookup_server
+          pip install -r requirements.txt
+
+      - name: Requirements inspection and upgrade
+        run: |
+          echo "### Initial pipdeptree ###"
+          pipdeptree | tee pipdeptree.initial
+          echo "### pip-compile --upgrade ###"
+          pip-compile --upgrade requirements.in
+          echo "### requirements.txt diff ###"
+          git diff requirments.txt | tee diff_requirements.txt
+          echo "### pip install -r requirements.txt ###"
+          pip install -r requirements.txt
+          echo "### Upgraded pipdeptree ###"
+          pipdeptree | tee pipdeptree.upgraded
+
   build-and-test:
     uses: livMatS/dtool-framework-workflows/.github/workflows/dtool-lookup-framewok-generic-container-image-build-and-test.yml@master
     with:
