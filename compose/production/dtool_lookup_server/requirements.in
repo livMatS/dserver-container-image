@@ -4,6 +4,8 @@ pymongo
 psycopg2
 importlib_metadata
 dtool
+dtool-ecs
+dtool-irods
 dtool-smb
 dtool-s3
 # dtool-lookup-server

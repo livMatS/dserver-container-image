@@ -11,7 +11,9 @@ alembic==1.7.7
 apispec[marshmallow]==5.1.1
     # via flask-smorest
 boto3==1.21.38
-    # via dtool-s3
+    # via
+    #   dtool-ecs
+    #   dtool-s3
 botocore==1.24.38
     # via
     #   boto3
@@ -29,7 +31,9 @@ click==8.1.2
     #   dtool-cli
     #   dtool-config
     #   dtool-create
+    #   dtool-ecs
     #   dtool-info
+    #   dtool-irods
     #   dtool-overlay
     #   dtool-s3
     #   dtool-tag
@@ -47,6 +51,7 @@ dtool-cli==0.7.1
     #   dtool
     #   dtool-annotation
     #   dtool-create
+    #   dtool-ecs
     #   dtool-info
     #   dtool-overlay
     #   dtool-s3
@@ -55,16 +60,22 @@ dtool-config==0.4.1
     # via dtool
 dtool-create==0.23.4
     # via dtool
+dtool-ecs==0.5.0
+    # via -r requirements.in
 dtool-http==0.5.1
     # via
     #   dtool
     #   dtool-create
 dtool-info==0.16.2
     # via dtool
+dtool-irods==0.10.1
+    # via -r requirements.in
 dtool-overlay==0.3.1
     # via dtool
 dtool-s3==0.14.1
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   dtool-ecs
 dtool-smb==0.1.0
     # via -r requirements.in
 dtool-symlink==0.3.1
@@ -80,8 +91,10 @@ dtoolcore==3.18.2
     #   dtool-cli
     #   dtool-config
     #   dtool-create
+    #   dtool-ecs
     #   dtool-http
     #   dtool-info
+    #   dtool-irods
     #   dtool-overlay
     #   dtool-s3
     #   dtool-smb
