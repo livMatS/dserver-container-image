@@ -148,7 +148,10 @@ marshmallow==3.15.0
     #   apispec
     #   flask-marshmallow
     #   flask-smorest
+    #   marshmallow-sqlalchemy
     #   webargs
+marshmallow-sqlalchemy==0.28.0
+    # via -r requirements.in
 packaging==21.3
     # via
     #   dtool-s3
@@ -195,6 +198,7 @@ sqlalchemy==1.4.35
     # via
     #   alembic
     #   flask-sqlalchemy
+    #   marshmallow-sqlalchemy
 urllib3==1.26.9
     # via
     #   botocore
@@ -220,4 +224,3 @@ dtool-lookup-server-annotation-filter-plugin==0.2.1
 dtool-lookup-server-dependency-graph-plugin==0.1.5
 dtool-lookup-server-direct-mongo-plugin==0.1.4
 dtool-lookup-server-notification-plugin==0.2.2
-
