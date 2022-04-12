@@ -233,7 +233,7 @@ zipp==3.8.0
 
 # manually added entries:
 -e git+https://github.com/jotelha/dtool-lookup-server.git@openapi#egg=dtool-lookup-server
-dtool-lookup-server-annotation-filter-plugin==0.2.1
-dtool-lookup-server-dependency-graph-plugin==0.1.5
-dtool-lookup-server-direct-mongo-plugin==0.1.4
-dtool-lookup-server-notification-plugin==0.2.2
+# dtool-lookup-server-annotation-filter-plugin==0.2.1
+# dtool-lookup-server-dependency-graph-plugin==0.1.5
+# dtool-lookup-server-direct-mongo-plugin==0.1.4
+# dtool-lookup-server-notification-plugin==0.2.2
