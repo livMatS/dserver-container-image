@@ -38,7 +38,7 @@ COPY compose/production/dtool_lookup_server/requirements.txt /requirements.txt
 RUN apt-get --yes update && \
     apt-get --no-install-recommends --yes install gcc libc6-dev libpq-dev supervisor cron git && \
     pip install setuptools setuptools_scm && \
-    pip install -r /requirements.txt && \
+    pip install --no-deps -r /requirements.txt && \
     apt-get remove --purge --autoremove -y gcc git && \
     rm -rf /var/lib/apt/lists/*
 # remove importlib_metadata when https://github.com/IMTEK-Simulation/dtool-lookup-server-direct-mongo-plugin/issues/1 resolved
