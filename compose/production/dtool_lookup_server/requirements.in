@@ -8,11 +8,7 @@ dtool-ecs
 dtool-irods
 dtool-smb
 dtool-s3
-# dtool-lookup-server
-# dtool-lookup-server-dependency-graph-plugin
-# dtool-lookup-server-direct-mongo-plugin
-# dtool-lookup-server-annotation-filter-plugin 
-# dtool-lookup-server-notification-plugin
+dtool-lookup-server
 flask
 flask-jwt-extended[asymmetric_crypto]>=4.0
 flask-sqlalchemy
