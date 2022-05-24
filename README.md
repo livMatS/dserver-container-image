@@ -6,6 +6,10 @@ Part of https://github.com/livMatS/dtool-lookup-server-container-composition.
 
 Provides https://github.com/jic-dtool/dtool-lookup-server in a container image for testing purposes.
 
+To build manually for testing purposes, run
+
+    docker build -t jotelha/dtool-lookup-server -f compose/production/dtool_lookup_server/Dockerfile .
+
 ## Envionment variables
 
 * `BIND_TO`, default: `0.0.0.0:5000`
