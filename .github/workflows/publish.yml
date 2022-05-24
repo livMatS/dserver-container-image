@@ -9,7 +9,7 @@ on:
 
 jobs:
   publish:
-    uses: livMatS/dtool-framework-workflows/.github/workflows/dtool-lookup-framewok-generic-container-image-publication.yml@master
+    uses: livMatS/dtool-framework-workflows/.github/workflows/dtool-lookup-framework-generic-container-image-publication.yml@master
     with:
       image: jotelha/dtool-lookup-server
       docker_file: ./compose/production/dtool_lookup_server/Dockerfile

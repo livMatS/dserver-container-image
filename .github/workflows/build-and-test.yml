@@ -46,7 +46,7 @@ jobs:
           pipdeptree | tee pipdeptree.upgraded
 
   build-and-test:
-    uses: livMatS/dtool-framework-workflows/.github/workflows/dtool-lookup-framewok-generic-container-image-build-and-test.yml@master
+    uses: livMatS/dtool-framework-workflows/.github/workflows/dtool-lookup-framework-generic-container-image-build-and-test.yml@master
     with:
       image: jotelha/dtool-lookup-server
       service: dtool_lookup_server
