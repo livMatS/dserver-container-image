@@ -69,7 +69,6 @@ dtool-info==0.16.2
 dtool-irods==0.10.1
     # via dtool-lookup-server
 # dtool-lookup-server==0.17.2
--e git+https://github.com/jotelha/dtool-lookup-server.git@master#egg=dtool-lookup-server
     # via
     #   -r requirements.in
     #   dtool-lookup-server-annotation-filter-plugin
@@ -227,3 +226,5 @@ zipp==3.7.0
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
+
+-e git+https://github.com/jic-dtool/dtool-lookup-server.git@master#egg=dtool-lookup-server
