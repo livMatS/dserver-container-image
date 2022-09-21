@@ -231,7 +231,7 @@ zipp==3.8.0
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
 
--e git+https://github.com/jic-dtool/dtool-lookup-server.git@master#egg=dtool-lookup-server
+-e git+https://github.com/joetlha/dtool-lookup-server.git@openapi#egg=dtool-lookup-server
 -e git+https://github.com/livMatS/dtool-lookup-server-plugin-scaffolding.git@openapi#egg=dtool-lookup-server-plugin-scaffolding
 -e git+https://github.com/livMatS/dtool-lookup-server-dependency-graph-plugin.git@openapi#egg=dtool-lookup-server-dependency-graph-plugin
 -e git+https://github.com/livMatS/dtool-lookup-server-direct-mongo-plugin.git@openapi#egg=dtool-lookup-server-direct-mongo-plugin
