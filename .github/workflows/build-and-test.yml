@@ -28,6 +28,7 @@ jobs:
           pip install wheel
           pip install pip-tools
           pip install pipdeptree
+          pip install setuptools_scm
           
       - name: Requirements inspection and upgrade
         run: |
