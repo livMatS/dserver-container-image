@@ -17,6 +17,5 @@ flask-pymongo
 flask-marshmallow
 flask-smorest
 flask-cors
-markupsafe==2.0.1
 marshmallow-sqlalchemy
 pyyaml
