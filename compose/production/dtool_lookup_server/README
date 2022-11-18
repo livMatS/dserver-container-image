@@ -1,5 +1,10 @@
 Use
 
-    pip-compile requirements.in > requirements.txt
+    python3 -m venv venv
+    source venv/bin/activate
+    pip install --upgrade pip
+    pip install pip-tools
+    pip install setuptools_scm
+    pip-compile --resolver=backtracking requirements.in > requirements.txt
 
 to pin versions.
