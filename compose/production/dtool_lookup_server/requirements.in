@@ -18,10 +18,10 @@ flask-smorest
 flask-cors
 marshmallow-sqlalchemy
 pyyaml
--e git+https://github.com/jotelha/dtool-lookup-server.git@master#egg=dtool-lookup-server
+-e git+https://github.com/jotelha/dtool-lookup-server.git@main#egg=dtool-lookup-server
 -e git+https://github.com/jotelha/dtool-lookup-server-search-plugin-mongo.git@main#egg=dtool-lookup-server-search-plugin-mongo
 -e git+https://github.com/jotelha/dtool-lookup-server-retrieve-plugin-mongo.git@main#egg=dtool-lookup-server-retrieve-plugin-mongo
--e git+https://github.com/livMatS/dtool-lookup-server-plugin-scaffolding.git@openapi#egg=dtool-lookup-server-plugin-scaffolding
--e git+https://github.com/livMatS/dtool-lookup-server-dependency-graph-plugin.git@openapi#egg=dtool-lookup-server-dependency-graph-plugin
--e git+https://github.com/livMatS/dtool-lookup-server-direct-mongo-plugin.git@openapi#egg=dtool-lookup-server-direct-mongo-plugin
--e git+https://github.com/livMatS/dtool-lookup-server-notification-plugin.git@openapi#egg=dtool-lookup-server-notification-plugin
+-e git+https://github.com/livMatS/dtool-lookup-server-plugin-scaffolding.git@main#egg=dtool-lookup-server-plugin-scaffolding
+-e git+https://github.com/livMatS/dtool-lookup-server-dependency-graph-plugin.git@main#egg=dtool-lookup-server-dependency-graph-plugin
+-e git+https://github.com/livMatS/dtool-lookup-server-direct-mongo-plugin.git@main#egg=dtool-lookup-server-direct-mongo-plugin
+-e git+https://github.com/livMatS/dtool-lookup-server-notification-plugin.git@main#egg=dtool-lookup-server-notification-plugin
