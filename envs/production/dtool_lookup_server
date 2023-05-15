@@ -1,18 +1,15 @@
+DTOOL_LOOKUP_SERVER_USER_FILE=/app/users
+DTOOL_LOOKUP_SERVER_ADMIN_USER_FILE=/app/admin_users
+DTOOL_LOOKUP_SERVER_BASE_URI_FILE=/app/base_uris
+
+BIND_TO="0.0.0.0:5000"
+
+# flask app config
 FLASK_APP=dtool_lookup_server
 LOGLEVEL=warning
 DUMP_HTTP_REQUESTS=false
 
 SQLALCHEMY_DATABASE_URI=postgresql://testing_user:testing_password@postgres:5432/dtool
-
-SEARCH_MONGO_URI=mongodb://mongodb:27017/
-SEARCH_MONGO_DB=dtool_info
-SEARCH_MONGO_COLLECTION=datasets
-
-RETRIEVE_MONGO_URI=mongodb://mongodb:27017/
-RETRIEVE_MONGO_DB=dtool_info
-RETRIEVE_MONGO_COLLECTION=datasets
-
-BIND_TO="0.0.0.0:5000"
 
 JWT_PUBLIC_KEY_FILE=/run/secrets/jwt_key.pub
 JWT_PRIVATE_KEY_FILE=/run/secrets/jwt_key
@@ -20,15 +17,28 @@ JWT_PRIVATE_KEY_FILE=/run/secrets/jwt_key
 SSL_CERT_FILE=/run/secrets/tls_cert.pem
 SSL_KEY_FILE=/run/secrets/tls_key.pem
 
-DTOOL_LOOKUP_SERVER_USER_FILE=/app/users
-DTOOL_LOOKUP_SERVER_ADMIN_USER_FILE=/app/admin_users
-DTOOL_LOOKUP_SERVER_BASE_URI_FILE=/app/base_uris
+# search plugin
+SEARCH_MONGO_URI=mongodb://mongodb:27017/
+SEARCH_MONGO_DB=dtool_info
+SEARCH_MONGO_COLLECTION=datasets
+
+# retrieve plugin 
+RETRIEVE_MONGO_URI=mongodb://mongodb:27017/
+RETRIEVE_MONGO_DB=dtool_info
+RETRIEVE_MONGO_COLLECTION=datasets
+
+# direct mongo plugin
+MONGO_URI=mongodb://mongodb:27017/
+MONGO_DB=dtool_info
+MONGO_COLLECTION=metadata
 
 DTOOL_LOOKUP_SERVER_QUERY_DICT_VALID_KEYS=["free_text","creator_usernames","base_uris","uuids","tags","query"]
 DTOOL_LOOKUP_SERVER_ALLOW_DIRECT_AGGREGATION=False
+
+# dependency graph plugin
 DTOOL_LOOKUP_SERVER_ENABLE_DEPENDENCY_VIEW=True
 DTOOL_LOOKUP_SERVER_DEPENDENCY_KEYS=["readme.derived_from.uuid","annotations.source_dataset_uuid"]
 
+# notifcation plugin
 DTOOL_LOOKUP_SERVER_NOTIFY_BUCKET_TO_BASE_URI={"test-bucket": "s3://test-bucket"}
 DTOOL_LOOKUP_SERVER_NOTIFY_ALLOW_ACCESS_FROM="0.0.0.0/0"
-
