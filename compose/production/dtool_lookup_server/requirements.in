@@ -5,7 +5,6 @@ psycopg2
 importlib_metadata
 dtool
 dtool-ecs
-dtool-irods
 dtool-smb
 dtool-s3
 flask
@@ -21,7 +20,6 @@ pyyaml
 -e git+https://github.com/jotelha/dtool-lookup-server.git@main#egg=dtool-lookup-server
 -e git+https://github.com/jotelha/dtool-lookup-server-search-plugin-mongo.git@main#egg=dtool-lookup-server-search-plugin-mongo
 -e git+https://github.com/jotelha/dtool-lookup-server-retrieve-plugin-mongo.git@main#egg=dtool-lookup-server-retrieve-plugin-mongo
--e git+https://github.com/livMatS/dtool-lookup-server-plugin-scaffolding.git@main#egg=dtool-lookup-server-plugin-scaffolding
 -e git+https://github.com/livMatS/dtool-lookup-server-dependency-graph-plugin.git@main#egg=dtool-lookup-server-dependency-graph-plugin
 -e git+https://github.com/livMatS/dtool-lookup-server-direct-mongo-plugin.git@main#egg=dtool-lookup-server-direct-mongo-plugin
 -e git+https://github.com/livMatS/dtool-lookup-server-notification-plugin.git@main#egg=dtool-lookup-server-notification-plugin
