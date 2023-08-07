@@ -1,7 +1,10 @@
 # Changelog for *dtool-lookup-server-container-image*
 
+## 0.8.1
 
-## 0.8.0 (unpublished)
+- Rebuilt with more recent development versions of libraries
+
+## 0.8.0
 
 - ENH: Use openapi-enabled and mongo-refactored development branch of dtool-lookup-server
   -e git+https://github.com/jotelha/dtool-lookup-server.git@master#egg=dtool-lookup-server
