@@ -1,5 +1,10 @@
 # Changelog for *dtool-lookup-server-container-image*
 
+## 0.9.0
+
+- DEP: dtool-lookup-server 0.18.0
+- DEP: mongo search and retrieve 0.2.0
+
 ## 0.8.1
 
 - Rebuilt with more recent development versions of libraries
