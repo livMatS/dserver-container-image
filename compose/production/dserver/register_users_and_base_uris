@@ -3,12 +3,12 @@
 # The ownly allowed failure is having the base uri or permission already registered earlier.
 # TODO: do this from a Python script to properly distinguish between critical and expected exceptions.
 
-DTOOL_LOOKUP_SERVER_USER_FILE="${DTOOL_LOOKUP_SERVER_USER_FILE:-/app/users}"
-DTOOL_LOOKUP_SERVER_ADMIN_USER_FILE="${DTOOL_LOOKUP_SERVER_ADMIN_USER_FILE:-/app/admin_users}"
-DTOOL_LOOKUP_SERVER_BASE_URI_FILE="${DTOOL_LOOKUP_SERVER_BASE_URI_FILE:-/app/base_uris}"
+DSERVER_USER_FILE="${DSERVER_USER_FILE:-/app/users}"
+DSERVER_ADMIN_USER_FILE="${DSERVER_ADMIN_USER_FILE:-/app/admin_users}"
+DSERVER_BASE_URI_FILE="${DSERVER_BASE_URI_FILE:-/app/base_uris}"
 
 # Add dtool URIs
-for base_uri in $(cat "${DTOOL_LOOKUP_SERVER_BASE_URI_FILE}"); do
+for base_uri in $(cat "${DSERVER_BASE_URI_FILE}"); do
   out=$(flask base_uri add "${base_uri}" 2>&1)
   if [ $? -ne 0 ]; then
     echo $out | grep -E 'Base URI .* already registered' > /dev/null 2>&1
@@ -20,7 +20,7 @@ for base_uri in $(cat "${DTOOL_LOOKUP_SERVER_BASE_URI_FILE}"); do
   echo $out
 done
 
-for user in $(cat "${DTOOL_LOOKUP_SERVER_USER_FILE}"); do
+for user in $(cat "${DSERVER_USER_FILE}"); do
   out=$(flask user add "${user}" 2>&1)
   if [ $? -ne 0 ]; then
     echo $out | grep -E 'User .* already registered' > /dev/null 2>&1
@@ -32,7 +32,7 @@ for user in $(cat "${DTOOL_LOOKUP_SERVER_USER_FILE}"); do
   echo $out
 
   # everyone may search everything
-  for base_uri in $(cat "${DTOOL_LOOKUP_SERVER_BASE_URI_FILE}"); do
+  for base_uri in $(cat "${DSERVER_BASE_URI_FILE}"); do
     out=$(flask user search_permission "${user}" "${base_uri}" 2>&1)
     if [ $? -ne 0 ]; then
       echo $out | grep -E 'User .* already has search permissions' > /dev/null 2>&1
@@ -46,7 +46,7 @@ for user in $(cat "${DTOOL_LOOKUP_SERVER_USER_FILE}"); do
 
 done
 
-for admin_user in $(cat "${DTOOL_LOOKUP_SERVER_ADMIN_USER_FILE}"); do
+for admin_user in $(cat "${DSERVER_ADMIN_USER_FILE}"); do
   out=$(flask user update --is_admin "${admin_user}" 2>&1)
   if [ $? -ne 0 ]; then
     echo $out >2

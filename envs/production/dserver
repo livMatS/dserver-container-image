@@ -1,0 +1,51 @@
+# dserver container image default environment variables
+
+BIND_TO="0.0.0.0:5000"
+
+# a plain text list of all users, one user per line
+DSERVER_USER_FILE=/app/users
+# a plain text list of all users with admin privileges, must also appear in user list above
+DSERVER_ADMIN_USER_FILE=/app/admin_users
+# a plain text list of all base URIs to index, one entry per line
+DSERVER_BASE_URI_FILE=/app/base_uris
+
+# core flask app config
+FLASK_APP=dserver
+LOGLEVEL=warning
+
+# dump all http requests to server application to stdout for debugging purposes
+DUMP_HTTP_REQUESTS=false
+
+SQLALCHEMY_DATABASE_URI=postgresql://testing_user:testing_password@postgres:5432/dtool
+
+JWT_PUBLIC_KEY_FILE=/run/secrets/jwt_key.pub
+JWT_PRIVATE_KEY_FILE=/run/secrets/jwt_key
+
+SSL_CERT_FILE=/run/secrets/tls_cert.pem
+SSL_KEY_FILE=/run/secrets/tls_key.pem
+
+# search plugin configuration
+SEARCH_MONGO_URI=mongodb://mongodb:27017/
+SEARCH_MONGO_DB=dtool_info
+SEARCH_MONGO_COLLECTION=datasets
+
+# search plugin configuration
+RETRIEVE_MONGO_URI=mongodb://mongodb:27017/
+RETRIEVE_MONGO_DB=dtool_info
+RETRIEVE_MONGO_COLLECTION=datasets
+
+# direct mongo plugin configuration
+DSERVER_MONGO_URI=mongodb://mongodb:27017/
+DSERVER_MONGO_DB=dtool_info
+DSERVER_MONGO_COLLECTION=metadata
+
+DSERVER_QUERY_DICT_VALID_KEYS=["free_text","creator_usernames","base_uris","uuids","tags","query"]
+DSERVER_ALLOW_DIRECT_AGGREGATION=False
+
+# dependency graph plugin configuration
+DSERVER_ENABLE_DEPENDENCY_VIEW=True
+DSERVER_DEPENDENCY_KEYS=["readme.derived_from.uuid","annotations.source_dataset_uuid"]
+
+# notification plugin configuration
+DSERVER_NOTIFY_BUCKET_TO_BASE_URI={"test-bucket": "s3://test-bucket"}
+DSERVER_NOTIFY_ALLOW_ACCESS_FROM="0.0.0.0/0"

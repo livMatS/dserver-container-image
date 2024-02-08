@@ -14,12 +14,12 @@ updates:
   # Enable version updates for Docker
   - package-ecosystem: "docker"
     # Look for a `Dockerfile` in this directory
-    directory: "/compose/production/dtool_lookup_server"
+    directory: "/compose/production/dserver"
     # Check for updates once a week
     schedule:
       interval: "daily"
 
   - package-ecosystem: "pip"
-    directory: "/compose/production/dtool_lookup_server"
+    directory: "/compose/production/dserver"
     schedule:
       interval: "daily"

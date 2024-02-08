@@ -1,4 +1,4 @@
-name: dtool-lookup-server-container-image-build-and-test
+name: dserver-container-image-build-and-test
 
 on:
   push:
@@ -6,6 +6,8 @@ on:
       - master
   pull_request:
 
+# Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   pip-compile:
@@ -32,7 +34,7 @@ jobs:
           
       - name: Requirements inspection and upgrade
         run: |
-          cd compose/production/dtool_lookup_server
+          cd compose/production/dserver
           echo "### Initial pip install -r requirements.txt ###"
           pip install -r requirements.txt
           echo "### Initial pipdeptree ###"
@@ -49,6 +51,6 @@ jobs:
   build-and-test:
     uses: livMatS/dtool-framework-workflows/.github/workflows/dtool-lookup-framework-generic-container-image-build-and-test.yml@master
     with:
-      image: jotelha/dtool-lookup-server
-      service: dtool_lookup_server
-      docker_file: ./compose/production/dtool_lookup_server/Dockerfile
+      image: jotelha/dserver
+      service: dserver
+      docker_file: ./compose/production/dserver/Dockerfile

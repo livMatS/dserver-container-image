@@ -10,9 +10,9 @@ printenv
 flask base_uri list
 
 # Build the index of the data on the URI
-DTOOL_LOOKUP_SERVER_BASE_URI_FILE="${DTOOL_LOOKUP_SERVER_BASE_URI_FILE:-/app/base_uris}"
+DSERVER_BASE_URI_FILE="${DSERVER_BASE_URI_FILE:-/app/base_uris}"
 
-for base_uri in $(cat "${DTOOL_LOOKUP_SERVER_BASE_URI_FILE}"); do
+for base_uri in $(cat "${DSERVER_BASE_URI_FILE}"); do
   flask base_uri index "${base_uri}"
 done
 

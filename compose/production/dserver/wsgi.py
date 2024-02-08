@@ -1,8 +1,16 @@
-"""Create dtool_lookup_server wsgi app."""
+"""Create dserver wsgi debug app.
+
+Environment variable
+
+  - DUMP_HTTP_REQUESTS=True
+      dumps all http requests.
+  - LOGLEVEL=DEBUG
+      dumps all debug messages
+"""
 import logging
 import os
 import pprint
-from dtool_lookup_server import create_app
+from dserver import create_app
 
 
 LOGLEVELS_STR = ['CRITICAL', 'ERROR', 'WARNING', 'INFO', 'DEBUG', 'NOTSET']

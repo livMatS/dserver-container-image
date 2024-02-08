@@ -3,16 +3,19 @@ name: publish
 on:
   push:
     branches:
-      - master
+      - main
     tags:
       - 'v*'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   publish:
     uses: livMatS/dtool-framework-workflows/.github/workflows/dtool-lookup-framework-generic-container-image-publication.yml@master
     with:
-      image: jotelha/dtool-lookup-server
-      docker_file: ./compose/production/dtool_lookup_server/Dockerfile
+      image: jotelha/dserver
+      docker_file: ./compose/production/dserver/Dockerfile
     secrets:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}

@@ -1,4 +1,8 @@
-# Changelog for *dtool-lookup-server-container-image*
+# Changelog for *dserver-container-image*
+
+## unpublished
+
+- MAINT: rebrand from dtool-lookup-server to dserver
 
 ## 0.9.0
 
