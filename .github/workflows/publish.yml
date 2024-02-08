@@ -7,12 +7,15 @@ on:
     tags:
       - 'v*'
 
+    # Allows you to run this workflow manually from the Actions tab
+    workflow_dispatch:
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
   publish:
-    uses: livMatS/dtool-framework-workflows/.github/workflows/dtool-lookup-framework-generic-container-image-publication.yml@master
+    uses: livMatS/dtool-framework-workflows/.github/workflows/dtool-lookup-framework-generic-container-image-publication.yml@main
     with:
       image: jotelha/dserver
       docker_file: ./compose/production/dserver/Dockerfile
