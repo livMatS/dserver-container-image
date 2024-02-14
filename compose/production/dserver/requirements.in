@@ -17,9 +17,9 @@ flask-smorest
 flask-cors
 marshmallow-sqlalchemy
 pyyaml
--e git+https://github.com/jotelha/dserver.git@main#egg=dserver
--e git+https://github.com/jotelha/dserver-search-plugin-mongo.git@main#egg=dserver-search-plugin-mongo
--e git+https://github.com/jotelha/dserver-retrieve-plugin-mongo.git@main#egg=dserver-retrieve-plugin-mongo
+-e git+https://github.com/livMatS/dserver.git@main#egg=dserver
+-e git+https://github.com/livMatS/dserver-search-plugin-mongo.git@main#egg=dserver-search-plugin-mongo
+-e git+https://github.com/livMatS/dserver-retrieve-plugin-mongo.git@main#egg=dserver-retrieve-plugin-mongo
 -e git+https://github.com/livMatS/dserver-dependency-graph-plugin.git@main#egg=dserver-dependency-graph-plugin
 -e git+https://github.com/livMatS/dserver-direct-mongo-plugin.git@main#egg=dserver-direct-mongo-plugin
 -e git+https://github.com/livMatS/dserver-notification-plugin.git@main#egg=dserver-notification-plugin

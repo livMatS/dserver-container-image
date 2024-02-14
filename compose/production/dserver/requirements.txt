@@ -4,7 +4,7 @@
 #
 #    pip-compile requirements.in
 #
--e git+https://github.com/jotelha/dserver.git@main#egg=dserver
+-e git+https://github.com/livMatS/dserver.git@main#egg=dserver
     # via
     #   -r requirements.in
     #   dserver-dependency-graph-plugin
@@ -20,9 +20,9 @@
     #   dserver-dependency-graph-plugin
 -e git+https://github.com/livMatS/dserver-notification-plugin.git@main#egg=dserver-notification-plugin
     # via -r requirements.in
--e git+https://github.com/jotelha/dserver-retrieve-plugin-mongo.git@main#egg=dserver-retrieve-plugin-mongo
+-e git+https://github.com/livMatS/dserver-retrieve-plugin-mongo.git@main#egg=dserver-retrieve-plugin-mongo
     # via -r requirements.in
--e git+https://github.com/jotelha/dserver-search-plugin-mongo.git@main#egg=dserver-search-plugin-mongo
+-e git+https://github.com/livMatS/dserver-search-plugin-mongo.git@main#egg=dserver-search-plugin-mongo
     # via -r requirements.in
 alembic==1.13.1
     # via
