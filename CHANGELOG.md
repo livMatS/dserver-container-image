@@ -2,6 +2,9 @@
 
 ## unpublished
 
+## 0.10.1
+
+- MAINT: fixed FLASK_APP env var and wsgi script import to use dtoolcore
 
 ## 0.10.0
 
