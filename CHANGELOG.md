@@ -2,7 +2,13 @@
 
 ## unpublished
 
+
+## 0.10.0
+
 - MAINT: rebrand from dtool-lookup-server to dserver
+- DEP: use dserver-minimal meta package
+- DEP: use current dserver-* plugin releases
+- DEP: use Python 3.12 base image
 
 ## 0.9.0
 
