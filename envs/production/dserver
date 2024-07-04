@@ -10,7 +10,7 @@ DSERVER_ADMIN_USER_FILE=/app/admin_users
 DSERVER_BASE_URI_FILE=/app/base_uris
 
 # core flask app config
-FLASK_APP=dserver
+FLASK_APP=dservercore
 LOGLEVEL=warning
 
 # dump all http requests to server application to stdout for debugging purposes
