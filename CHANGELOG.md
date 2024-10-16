@@ -1,6 +1,8 @@
 # Changelog for *dserver-container-image*
 
-## unpublished
+## 0.11.0
+
+- DEP: updated pinned versions, in particular dservercore 0.21.0
 
 ## 0.10.1
 
