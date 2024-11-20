@@ -1,5 +1,10 @@
 # Changelog for *dserver-container-image*
 
+## 0.13.0
+
+- ENH: Apply ProxyFix middelware
+- DEP: updated pinned versions, in particular notification plugin 0.4.3
+
 ## 0.12.0
 
 - DEP: updated pinned versions, in particular notification plugin 0.4.2
