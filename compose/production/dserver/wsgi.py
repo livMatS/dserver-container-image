@@ -10,6 +10,7 @@ Environment variable
 import logging
 import os
 import pprint
+from werkzeug.middleware.proxy_fix import ProxyFix
 from dservercore import create_app
 
 
@@ -34,6 +35,9 @@ if loglevel is not None:
     logger.setLevel(loglevel) # modify root logger as well in case it's been set up already elsewhere
 
 app = create_app()
+
+# Apply ProxyFix here
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 
 # wrap logging middleware if DUMP_HTTP_REQUESTS set true
 if os.getenv("DUMP_HTTP_REQUESTS", 'False').lower() in ('true', '1', 't'):
