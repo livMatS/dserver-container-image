@@ -1,5 +1,9 @@
 # Changelog for *dserver-container-image*
 
+## 0.12.0
+
+- DEP: updated pinned versions, in particular notification plugin 0.4.2
+
 ## 0.11.0
 
 - DEP: updated pinned versions, in particular dservercore 0.21.0
