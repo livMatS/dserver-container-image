@@ -54,7 +54,7 @@ dserver-direct-mongo-plugin==0.4.1
     #   dserver-dependency-graph-plugin
 dserver-minimal==0.2.0
     # via -r requirements.in
-dserver-notification-plugin==0.4.2
+dserver-notification-plugin==0.4.3
     # via -r requirements.in
 dserver-retrieve-plugin-mongo==0.4.2
     # via dserver-minimal
